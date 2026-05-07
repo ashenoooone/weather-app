@@ -1,117 +1,34 @@
 # Weather App
 
-React-приложение с локальным mock REST API для разработки.
+React 19, TS, Vite, TanStack Router/Query, Zustand (persist), Recharts. **Погода** — Open-Meteo (геокодинг + почасовой прогноз). **Пользователи** — json-server, `mock/db.json`.
 
-## Скрипты
-
-Установка зависимостей:
+## Запуск
 
 ```bash
-npm install
+npm install && npm run dev
 ```
 
-Запуск frontend и mock backend вместе:
+Фронт + mock на `:3001`. Отдельно: `dev:front`, `mock`. URL API: `VITE_API_BASE_URL` → `src/4_shared/model/config.ts`.
 
-```bash
-npm run dev
-```
+## Важное
 
-Запуск только frontend:
+- **Структура:** `1_app` / `2_features` / `3_entities` / `4_shared` (близко к FSD).
+- **Сессия:** токен в `localStorage`, Bearer в axios. Профиль: `GET /users?token=…` (у сидов разные токены; общий `userMe` для «кто я» не используем).
+- **Роли:** `roles[]`, при регистрации добавляется `weather_reader`; доступ к `/weather` и пункт меню — на **клиенте**, json-server роли не проверяет.
+- **403 в ТЗ** → редиректы: гость на логин, без роли погоды на `/forbidden`; залогиненный с `/forbidden` на `/user`.
+- **Графики:** тренд, гистограмма, скользящая средняя, T° + влажность (2 оси Y или bar+line); диапазон дней и режимы отображения — в persist-сторе.
+- **Оговорки:** RBAC только на клиенте; Open-Meteo нужна сеть; мок `userMe` может разъехаться с `users`; `weather` в JSON для графиков не используется.
 
-```bash
-npm run dev:front
-```
+## Логины для проверки (`mock/db.json`)
 
-Запуск только mock backend:
+| Логин   | Пароль | Заметка        |
+|---------|--------|----------------|
+| `admin` | `123`  | есть погода    |
+| `norole`| `123`  | без погоды     |
 
-```bash
-npm run mock
-```
+Логин: `GET /users?login=…&password=…` → сохраняем `token` из ответа.
 
-Mock API запускается на:
+## TODO
 
-```text
-http://localhost:3001
-```
-
-## Конфиг
-
-Доступ к env-переменным и базовый URL backend вынесены в:
-
-```text
-src/4_shared/model/config.ts
-```
-
-Использование:
-
-```ts
-import { BACKEND_BASE_URL, config } from '@shared/model/config'
-```
-
-Значение по умолчанию:
-
-```text
-http://localhost:3001
-```
-
-Переопределение:
-
-```bash
-VITE_API_BASE_URL=http://localhost:3001 npm run dev
-```
-
-## Тестовый пользователь
-
-```text
-login: admin
-password: 123456
-role: weather_reader
-```
-
-Для авторизации frontend может вызвать `GET /users?login=admin&password=123456`, затем сохранить `mock-token` в `localStorage`. Mock backend токены не генерирует.
-
-## Примеры запросов
-
-Проверка пользователя:
-
-```bash
-curl "http://localhost:3001/users?login=admin&password=123456"
-```
-
-Регистрация пользователя:
-
-```bash
-curl -X POST "http://localhost:3001/users" \
-  -H "Content-Type: application/json" \
-  -d '{"login":"user1","password":"123456","role":"weather_reader"}'
-```
-
-Получение списка городов:
-
-```bash
-curl "http://localhost:3001/cities"
-```
-
-Получение погодных данных по городу:
-
-```bash
-curl "http://localhost:3001/weather?city=Saratov"
-```
-
-Получение погодных данных по городу и периоду:
-
-```bash
-curl "http://localhost:3001/weather?city=Saratov&date_gte=2026-05-01&date_lte=2026-05-07"
-```
-
-## Данные
-
-Mock-данные лежат в `mock/db.json`.
-
-Сущности:
-
-- `users`: `id`, `login`, `password`, `role`
-- `cities`: `id`, `name`
-- `weather`: `id`, `city`, `date`, `temperature`, `humidity`
-
-Даты используют формат `YYYY-MM-DD`. Погодные данные есть за 14 дней для `Saratov`, `Moscow`, `Saint Petersburg`.
+- `city-search.tsx` — infinite scroll при поиске городов.
+- Бэкенд с JWT и проверкой ролей; e2e; битый токен; fallback при падении Open-Meteo.
