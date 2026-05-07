@@ -1,3 +1,4 @@
+import { useLogout } from '@/features/auth/model/use-logout'
 import { Link } from '@/shared/ui/link'
 import {
   Sidebar,
@@ -10,9 +11,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/shared/ui/sidebar'
-import { CloudSun, User } from 'lucide-react'
+import { CloudSun, LogOut, User } from 'lucide-react'
 
 export function AppSidebar() {
+  const logout = useLogout()
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -41,7 +44,16 @@ export function AppSidebar() {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton tooltip="Выйти" onClick={logout}>
+              <LogOut />
+              <span>Выйти</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   )
 }

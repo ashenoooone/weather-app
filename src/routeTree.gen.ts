@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as authorizedLayoutRouteImport } from './routes/(authorized)/_layout'
 import { Route as authorizedLayoutWeatherRouteImport } from './routes/(authorized)/_layout/weather'
 import { Route as authorizedLayoutUserRouteImport } from './routes/(authorized)/_layout/user'
 
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
   id: '/auth/register',
   path: '/auth/register',
@@ -41,12 +47,14 @@ const authorizedLayoutUserRoute = authorizedLayoutUserRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/user': typeof authorizedLayoutUserRoute
   '/weather': typeof authorizedLayoutWeatherRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
   '/user': typeof authorizedLayoutUserRoute
@@ -54,6 +62,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/(authorized)/_layout': typeof authorizedLayoutRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
@@ -62,11 +71,12 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/auth/login' | '/auth/register' | '/user' | '/weather'
+  fullPaths: '/' | '/auth/login' | '/auth/register' | '/user' | '/weather'
   fileRoutesByTo: FileRoutesByTo
-  to: '/auth/login' | '/auth/register' | '/user' | '/weather'
+  to: '/' | '/auth/login' | '/auth/register' | '/user' | '/weather'
   id:
     | '__root__'
+    | '/'
     | '/(authorized)/_layout'
     | '/auth/login'
     | '/auth/register'
@@ -75,6 +85,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   authorizedLayoutRoute: typeof authorizedLayoutRouteWithChildren
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
@@ -82,6 +93,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/register': {
       id: '/auth/register'
       path: '/auth/register'
@@ -134,6 +152,7 @@ const authorizedLayoutRouteWithChildren =
   authorizedLayoutRoute._addFileChildren(authorizedLayoutRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   authorizedLayoutRoute: authorizedLayoutRouteWithChildren,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,

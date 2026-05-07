@@ -32,10 +32,12 @@ export function RegisterForm() {
 
     try {
       await registerMutation.mutateAsync({ login, password })
+
       toast.success('Регистрация успешна', {
         description: 'Аккаунт успешно создан',
       })
-      navigate({ to: '/auth/login' })
+
+      await navigate({ to: '/auth/login', replace: true })
     }
     catch (error) {
       if (error instanceof ApiError) {

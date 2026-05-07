@@ -27,10 +27,12 @@ export function LoginForm() {
   const onSubmit = async (data: LoginFormValues) => {
     try {
       await loginMutation.mutateAsync(data)
+
       toast.success('Авторизация успешна', {
         description: 'Вы успешно вошли в систему',
       })
-      navigate({ to: '/weather' })
+
+      await navigate({ to: '/weather', replace: true })
     }
     catch (error) {
       if (error instanceof ApiError) {
