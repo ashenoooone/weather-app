@@ -3,6 +3,7 @@ import { Controller, useForm } from 'react-hook-form'
 import type { LoginFormValues } from '../model/types'
 import { Field, FieldError, FieldLabel } from '@/shared/ui/field'
 import { Input } from '@/shared/ui/input'
+import { PasswordInput } from '@/shared/ui/password-input'
 import { Button } from '@/shared/ui/button'
 import { useLogin } from '../model/use-login'
 import { toast } from 'sonner'
@@ -67,7 +68,7 @@ export function LoginForm() {
                 <FieldLabel>
                   Пароль
                 </FieldLabel>
-                <Input placeholder="Введите пароль" {...field} type="password" />
+                <PasswordInput placeholder="Введите пароль" {...field} />
                 {fieldState.invalid && <FieldError errors={fieldState.error ? [fieldState.error] : undefined} />}
               </Field>
             )}

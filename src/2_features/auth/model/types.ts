@@ -18,6 +18,7 @@ export type RegisterResponseDto = {
   id: string
   login: string
   password: string
+  token: User['token']
 }
 
 // --- form values ---
@@ -30,4 +31,5 @@ export type LoginFormValues = {
 export type RegisterFormValues = {
   login: string
   password: string
+  confirmPassword: string
 }

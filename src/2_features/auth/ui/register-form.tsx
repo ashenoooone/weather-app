@@ -3,30 +3,39 @@ import { Controller, useForm } from 'react-hook-form'
 import type { RegisterFormValues } from '../model/types'
 import { Field, FieldError, FieldLabel } from '@/shared/ui/field'
 import { Input } from '@/shared/ui/input'
+import { PasswordInput } from '@/shared/ui/password-input'
 import { Button } from '@/shared/ui/button'
 import { useRegister } from '../model/use-register'
 import { toast } from 'sonner'
 import { ApiError } from '@/shared/api/error'
 import { Link } from '@/shared/ui/link'
 import { Typography } from '@/shared/ui/typography'
+import { getConfirmPasswordValidationError, getPasswordValidationError } from '../model/validation'
+import { useNavigate } from '@tanstack/react-router'
 
 export function RegisterForm() {
+  const navigate = useNavigate()
+
   const registerForm = useForm<RegisterFormValues>({
     defaultValues: {
       login: '',
       password: '',
+      confirmPassword: '',
     },
+    mode: 'all',
   })
 
   const registerMutation = useRegister()
 
   const onSubmit = async (data: RegisterFormValues) => {
+    const { login, password } = data
+
     try {
-      await registerMutation.mutateAsync(data)
+      await registerMutation.mutateAsync({ login, password })
       toast.success('Регистрация успешна', {
         description: 'Аккаунт успешно создан',
       })
-      registerForm.reset()
+      navigate({ to: '/auth/login' })
     }
     catch (error) {
       if (error instanceof ApiError) {
@@ -63,12 +72,32 @@ export function RegisterForm() {
           <Controller
             control={registerForm.control}
             name="password"
+            rules={{
+              validate: value => getPasswordValidationError(value) ?? true,
+            }}
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel>
                   Пароль
                 </FieldLabel>
-                <Input placeholder="Введите пароль" {...field} type="password" />
+                <PasswordInput placeholder="Введите пароль" {...field} />
+                {fieldState.invalid && <FieldError errors={fieldState.error ? [fieldState.error] : undefined} />}
+              </Field>
+            )}
+          />
+          <Controller
+            control={registerForm.control}
+            name="confirmPassword"
+            rules={{
+              validate: value =>
+                getConfirmPasswordValidationError(registerForm.getValues('password'), value) ?? true,
+            }}
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>
+                  Подтвердите пароль
+                </FieldLabel>
+                <PasswordInput placeholder="Повторите пароль" {...field} />
                 {fieldState.invalid && <FieldError errors={fieldState.error ? [fieldState.error] : undefined} />}
               </Field>
             )}

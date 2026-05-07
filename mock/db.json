@@ -11,6 +11,12 @@
       "login": "demo",
       "password": "123",
       "token": "mock-token"
+    },
+    {
+      "login": "test",
+      "password": "testtest1D",
+      "token": "mock-token-4dd6d9f8-7daa-4a91-9973-84e60c9c73e7",
+      "id": "DrTzI7E"
     }
   ],
   "cities": [
