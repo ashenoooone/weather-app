@@ -12,14 +12,12 @@ export type LoginResponseDto = User[]
 export type RegisterRequestDto = {
   login: string
   password: string
-  role: string
 }
 
 export type RegisterResponseDto = {
   id: string
   login: string
   password: string
-  role: string
 }
 
 // --- form values ---
@@ -32,5 +30,4 @@ export type LoginFormValues = {
 export type RegisterFormValues = {
   login: string
   password: string
-  role: string
 }
