@@ -12,6 +12,7 @@
     "types": ["vite/client"],
     "allowImportingTsExtensions": true,
 
+    "strictNullChecks": true,
     "noFallthroughCasesInSwitch": true,
     /* Linting */
     "noUnusedLocals": true,
