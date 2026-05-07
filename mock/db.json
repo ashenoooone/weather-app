@@ -3,14 +3,14 @@
     {
       "id": "1",
       "login": "admin",
-      "password": "123456",
+      "password": "123",
       "token": "mock-token",
       "role": "weather_reader"
     },
     {
       "id": "2",
       "login": "demo",
-      "password": "123456",
+      "password": "123",
       "token": "mock-token",
       "role": "weather_reader"
     }

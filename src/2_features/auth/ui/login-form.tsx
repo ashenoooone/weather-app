@@ -6,6 +6,7 @@ import { Input } from '@/shared/ui/input'
 import { Button } from '@/shared/ui/button'
 import { useLogin } from '../model/use-login'
 import { toast } from 'sonner'
+import { ApiError } from '@/shared/api/error'
 
 export function LoginForm() {
   const loginForm = useForm<LoginFormValues>({
@@ -24,10 +25,15 @@ export function LoginForm() {
         description: 'Вы успешно вошли в систему',
       })
     }
-    catch {
-      toast.error('Ошибка при авторизации', {
-        description: 'Попробуйте позже',
-      })
+    catch (error) {
+      if (error instanceof ApiError) {
+        toast.error(error.message)
+      }
+      else {
+        toast.error('Ошибка при авторизации', {
+          description: 'Попробуйте позже',
+        })
+      }
     }
   }
 

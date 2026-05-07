@@ -2,6 +2,7 @@ import { config } from '../model/config'
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 import { seconds } from '../lib/time'
+import { toApiError } from './error'
 
 export const $instance = axios.create({
   baseURL: config.API_BASE_URL,
@@ -20,3 +21,12 @@ function attachDelayInterceptor(instance: AxiosInstance) {
 }
 
 attachDelayInterceptor($instance)
+
+function attachApiErrorInterceptor(instance: AxiosInstance) {
+  instance.interceptors.response.use(
+    response => response,
+    (error: unknown) => Promise.reject(toApiError(error)),
+  )
+}
+
+attachApiErrorInterceptor($instance)
