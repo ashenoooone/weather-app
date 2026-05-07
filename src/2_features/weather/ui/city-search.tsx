@@ -3,30 +3,49 @@ import { useWeatherPageActions, useWeatherPageStore } from '../model/weather-pag
 import { useQuery } from '@tanstack/react-query'
 import { citySearchQueryOptions } from '@/entities/weather/model/query-options'
 import type { WeatherCity } from '@/entities/weather/model/types'
+import { Typography } from '@/shared/ui/typography'
+import { Label } from '@/shared/ui/label'
 
 export function CitySearch() {
-  const { citySearch } = useWeatherPageStore()
-  const { setCitySearch } = useWeatherPageActions()
+  const { city, citySearch } = useWeatherPageStore()
+  const { setCity, setCitySearch } = useWeatherPageActions()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCitySearch(e.target.value)
-  }
-
-  const citySearchQuery = useQuery(citySearchQueryOptions({ search: citySearch }))
+  // TODO: в идеале инфинит подгрузку делать, но не стал заморачиваться
+  const citySearchQuery = useQuery(citySearchQueryOptions({ search: citySearch, perPage: 100 }))
 
   return (
-    <Combobox items={citySearchQuery.data ?? []}>
-      <ComboboxInput value={citySearch} onChange={handleChange} />
+    <Combobox<WeatherCity>
+      items={citySearchQuery.data ?? []}
+      inputValue={citySearch}
+      itemToStringLabel={item => item.name}
+      filter={null}
+      value={city}
+      onInputValueChange={setCitySearch}
+      onValueChange={(selectedCity) => {
+        if (!selectedCity) {
+          return
+        }
+        setCity(selectedCity)
+        setCitySearch(selectedCity.name)
+      }}
+    >
+      <Label className="flex-col items-start max-w-[400px]">
+        Введите город
+        <ComboboxInput placeholder="Найти город" showClear className="w-full" />
+      </Label>
       <ComboboxContent>
-        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxEmpty>
+          {citySearchQuery.isFetching ? 'Ищем...' : 'Города не найдены'}
+        </ComboboxEmpty>
         <ComboboxList>
           {(item: WeatherCity) => (
             <ComboboxItem key={item.id} value={item}>
-              {item.name}
-              {' '}
-              {item.latitude}
-              {' '}
-              {item.longitude}
+              <Typography variant="body">{item.name}</Typography>
+              <Typography variant="muted">
+                {item.latitude}
+                {', '}
+                {item.longitude}
+              </Typography>
             </ComboboxItem>
           )}
         </ComboboxList>

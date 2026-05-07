@@ -1,5 +1,6 @@
 import { createStore, useStore } from 'zustand'
 import type { WeatherCity } from '@/entities/weather/model/types'
+import { persist } from 'zustand/middleware'
 
 type State = {
   // city
@@ -14,12 +15,19 @@ type Actions = {
 
 type Store = State & Actions
 
-const weatherPageStore = createStore<Store>(set => ({
-  city: null,
-  citySearch: '',
-  setCity: city => set({ city }),
-  setCitySearch: citySearch => set({ citySearch }),
-}))
+const weatherPageStore = createStore<Store>()(
+  persist(
+    set => ({
+      city: null,
+      citySearch: '',
+      setCity: city => set({ city }),
+      setCitySearch: citySearch => set({ citySearch }),
+    }),
+    {
+      name: 'weather-page-store',
+    },
+  ),
+)
 
 export function useWeatherPageStore() {
   const city = useStore(weatherPageStore, state => state.city)
