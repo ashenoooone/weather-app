@@ -9,6 +9,13 @@ import { MeanTemp } from '@/features/weather/ui/mean-temp'
 import { TempAndHumidity } from '@/features/weather/ui/temp-and-humidity'
 import { Typography } from '@/shared/ui/typography'
 import { Card, CardContent } from '@/shared/ui/card'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/shared/ui/select'
 import { WeatherRange } from '@/entities/weather/model/types'
 import { useWeatherPageActions, useWeatherPageStore } from '@/features/weather/model/weather-page.store'
 import type { WeatherRange as WeatherRangeValue } from '@/entities/weather/model/types'
@@ -55,17 +62,31 @@ function RouteComponent() {
 
       <Card className="max-w-2xl">
         <CardContent>
-          <label className="flex flex-col gap-2">
+          <label className="flex flex-col gap-2" htmlFor="weather-range-select">
             <span className="text-sm font-medium text-muted-foreground">Диапазон дат</span>
-            <select
-              className="h-11 rounded-xl border border-border/70 bg-input/70 px-4 text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
-              value={range}
-              onChange={event => setRange(Number(event.target.value) as WeatherRangeValue)}
+            <Select
+              value={String(range)}
+              onValueChange={value => setRange(Number(value) as WeatherRangeValue)}
             >
-              {weatherRangeOptions.map(option => (
-                <option key={option.value} value={option.value}>{option.label}</option>
-              ))}
-            </select>
+              <SelectTrigger
+                id="weather-range-select"
+                className="h-11 w-full rounded-xl border-border/70 bg-input/70 px-4 text-start shadow-none focus-visible:ring-3 focus-visible:ring-ring/30"
+              >
+                <SelectValue placeholder="Выберите диапазон" />
+              </SelectTrigger>
+              <SelectContent
+                position="popper"
+                sideOffset={6}
+                align="start"
+                matchTriggerWidth
+              >
+                {weatherRangeOptions.map(option => (
+                  <SelectItem key={option.value} value={String(option.value)}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </label>
         </CardContent>
       </Card>
