@@ -1,73 +1,117 @@
-# React + TypeScript + Vite
+# Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React-приложение с локальным mock REST API для разработки.
 
-Currently, two official plugins are available:
+## Скрипты
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Установка зависимостей:
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Запуск frontend и mock backend вместе:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+Запуск только frontend:
+
+```bash
+npm run dev:front
+```
+
+Запуск только mock backend:
+
+```bash
+npm run mock
+```
+
+Mock API запускается на:
+
+```text
+http://localhost:3001
+```
+
+## Конфиг
+
+Доступ к env-переменным и базовый URL backend вынесены в:
+
+```text
+src/5_shared/model/config.ts
+```
+
+Использование:
+
+```ts
+import { BACKEND_BASE_URL, config } from '@shared/model/config'
+```
+
+Значение по умолчанию:
+
+```text
+http://localhost:3001
+```
+
+Переопределение:
+
+```bash
+VITE_API_BASE_URL=http://localhost:3001 npm run dev
+```
+
+## Тестовый пользователь
+
+```text
+login: admin
+password: 123456
+role: weather_reader
+```
+
+Для авторизации frontend может вызвать `GET /users?login=admin&password=123456`, затем сохранить `mock-token` в `localStorage`. Mock backend токены не генерирует.
+
+## Примеры запросов
+
+Проверка пользователя:
+
+```bash
+curl "http://localhost:3001/users?login=admin&password=123456"
+```
+
+Регистрация пользователя:
+
+```bash
+curl -X POST "http://localhost:3001/users" \
+  -H "Content-Type: application/json" \
+  -d '{"login":"user1","password":"123456","role":"weather_reader"}'
+```
+
+Получение списка городов:
+
+```bash
+curl "http://localhost:3001/cities"
+```
+
+Получение погодных данных по городу:
+
+```bash
+curl "http://localhost:3001/weather?city=Saratov"
+```
+
+Получение погодных данных по городу и периоду:
+
+```bash
+curl "http://localhost:3001/weather?city=Saratov&date_gte=2026-05-01&date_lte=2026-05-07"
+```
+
+## Данные
+
+Mock-данные лежат в `mock/db.json`.
+
+Сущности:
+
+- `users`: `id`, `login`, `password`, `role`
+- `cities`: `id`, `name`
+- `weather`: `id`, `city`, `date`, `temperature`, `humidity`
+
+Даты используют формат `YYYY-MM-DD`. Погодные данные есть за 14 дней для `Saratov`, `Moscow`, `Saint Petersburg`.

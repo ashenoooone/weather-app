@@ -1,0 +1,326 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "login": "admin",
+      "password": "123456",
+      "role": "weather_reader"
+    },
+    {
+      "id": "2",
+      "login": "demo",
+      "password": "123456",
+      "role": "weather_reader"
+    }
+  ],
+  "cities": [
+    {
+      "id": "1",
+      "name": "Saratov"
+    },
+    {
+      "id": "2",
+      "name": "Moscow"
+    },
+    {
+      "id": "3",
+      "name": "Saint Petersburg"
+    }
+  ],
+  "weather": [
+    {
+      "id": "1",
+      "city": "Saratov",
+      "date": "2026-05-01",
+      "temperature": 16.2,
+      "humidity": 58
+    },
+    {
+      "id": "2",
+      "city": "Saratov",
+      "date": "2026-05-02",
+      "temperature": 17.1,
+      "humidity": 55
+    },
+    {
+      "id": "3",
+      "city": "Saratov",
+      "date": "2026-05-03",
+      "temperature": 18.4,
+      "humidity": 52
+    },
+    {
+      "id": "4",
+      "city": "Saratov",
+      "date": "2026-05-04",
+      "temperature": 19,
+      "humidity": 49
+    },
+    {
+      "id": "5",
+      "city": "Saratov",
+      "date": "2026-05-05",
+      "temperature": 20.3,
+      "humidity": 47
+    },
+    {
+      "id": "6",
+      "city": "Saratov",
+      "date": "2026-05-06",
+      "temperature": 21.5,
+      "humidity": 45
+    },
+    {
+      "id": "7",
+      "city": "Saratov",
+      "date": "2026-05-07",
+      "temperature": 22.1,
+      "humidity": 44
+    },
+    {
+      "id": "8",
+      "city": "Saratov",
+      "date": "2026-05-08",
+      "temperature": 20.8,
+      "humidity": 50
+    },
+    {
+      "id": "9",
+      "city": "Saratov",
+      "date": "2026-05-09",
+      "temperature": 19.6,
+      "humidity": 53
+    },
+    {
+      "id": "10",
+      "city": "Saratov",
+      "date": "2026-05-10",
+      "temperature": 18.7,
+      "humidity": 57
+    },
+    {
+      "id": "11",
+      "city": "Saratov",
+      "date": "2026-05-11",
+      "temperature": 19.4,
+      "humidity": 54
+    },
+    {
+      "id": "12",
+      "city": "Saratov",
+      "date": "2026-05-12",
+      "temperature": 21,
+      "humidity": 48
+    },
+    {
+      "id": "13",
+      "city": "Saratov",
+      "date": "2026-05-13",
+      "temperature": 23.2,
+      "humidity": 42
+    },
+    {
+      "id": "14",
+      "city": "Saratov",
+      "date": "2026-05-14",
+      "temperature": 24,
+      "humidity": 40
+    },
+    {
+      "id": "15",
+      "city": "Moscow",
+      "date": "2026-05-01",
+      "temperature": 12.4,
+      "humidity": 68
+    },
+    {
+      "id": "16",
+      "city": "Moscow",
+      "date": "2026-05-02",
+      "temperature": 13.1,
+      "humidity": 66
+    },
+    {
+      "id": "17",
+      "city": "Moscow",
+      "date": "2026-05-03",
+      "temperature": 14.8,
+      "humidity": 61
+    },
+    {
+      "id": "18",
+      "city": "Moscow",
+      "date": "2026-05-04",
+      "temperature": 15.6,
+      "humidity": 58
+    },
+    {
+      "id": "19",
+      "city": "Moscow",
+      "date": "2026-05-05",
+      "temperature": 16.2,
+      "humidity": 56
+    },
+    {
+      "id": "20",
+      "city": "Moscow",
+      "date": "2026-05-06",
+      "temperature": 17.3,
+      "humidity": 55
+    },
+    {
+      "id": "21",
+      "city": "Moscow",
+      "date": "2026-05-07",
+      "temperature": 18,
+      "humidity": 53
+    },
+    {
+      "id": "22",
+      "city": "Moscow",
+      "date": "2026-05-08",
+      "temperature": 16.9,
+      "humidity": 59
+    },
+    {
+      "id": "23",
+      "city": "Moscow",
+      "date": "2026-05-09",
+      "temperature": 15.7,
+      "humidity": 63
+    },
+    {
+      "id": "24",
+      "city": "Moscow",
+      "date": "2026-05-10",
+      "temperature": 14.9,
+      "humidity": 67
+    },
+    {
+      "id": "25",
+      "city": "Moscow",
+      "date": "2026-05-11",
+      "temperature": 15.5,
+      "humidity": 64
+    },
+    {
+      "id": "26",
+      "city": "Moscow",
+      "date": "2026-05-12",
+      "temperature": 17.1,
+      "humidity": 57
+    },
+    {
+      "id": "27",
+      "city": "Moscow",
+      "date": "2026-05-13",
+      "temperature": 18.6,
+      "humidity": 52
+    },
+    {
+      "id": "28",
+      "city": "Moscow",
+      "date": "2026-05-14",
+      "temperature": 19.2,
+      "humidity": 50
+    },
+    {
+      "id": "29",
+      "city": "Saint Petersburg",
+      "date": "2026-05-01",
+      "temperature": 9.8,
+      "humidity": 75
+    },
+    {
+      "id": "30",
+      "city": "Saint Petersburg",
+      "date": "2026-05-02",
+      "temperature": 10.6,
+      "humidity": 73
+    },
+    {
+      "id": "31",
+      "city": "Saint Petersburg",
+      "date": "2026-05-03",
+      "temperature": 11.4,
+      "humidity": 70
+    },
+    {
+      "id": "32",
+      "city": "Saint Petersburg",
+      "date": "2026-05-04",
+      "temperature": 12.2,
+      "humidity": 68
+    },
+    {
+      "id": "33",
+      "city": "Saint Petersburg",
+      "date": "2026-05-05",
+      "temperature": 13.5,
+      "humidity": 66
+    },
+    {
+      "id": "34",
+      "city": "Saint Petersburg",
+      "date": "2026-05-06",
+      "temperature": 14.1,
+      "humidity": 65
+    },
+    {
+      "id": "35",
+      "city": "Saint Petersburg",
+      "date": "2026-05-07",
+      "temperature": 14.8,
+      "humidity": 63
+    },
+    {
+      "id": "36",
+      "city": "Saint Petersburg",
+      "date": "2026-05-08",
+      "temperature": 13.9,
+      "humidity": 69
+    },
+    {
+      "id": "37",
+      "city": "Saint Petersburg",
+      "date": "2026-05-09",
+      "temperature": 12.7,
+      "humidity": 72
+    },
+    {
+      "id": "38",
+      "city": "Saint Petersburg",
+      "date": "2026-05-10",
+      "temperature": 11.8,
+      "humidity": 76
+    },
+    {
+      "id": "39",
+      "city": "Saint Petersburg",
+      "date": "2026-05-11",
+      "temperature": 12.5,
+      "humidity": 74
+    },
+    {
+      "id": "40",
+      "city": "Saint Petersburg",
+      "date": "2026-05-12",
+      "temperature": 13.7,
+      "humidity": 68
+    },
+    {
+      "id": "41",
+      "city": "Saint Petersburg",
+      "date": "2026-05-13",
+      "temperature": 15.2,
+      "humidity": 64
+    },
+    {
+      "id": "42",
+      "city": "Saint Petersburg",
+      "date": "2026-05-14",
+      "temperature": 16,
+      "humidity": 62
+    }
+  ]
+}

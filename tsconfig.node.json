@@ -5,11 +5,17 @@
     "lib": ["ES2023"],
     "moduleDetection": "force",
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "module": "esnext",
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["src/*"],
+      "@app/*": ["src/1_app/*"],
+      "@pages/*": ["src/2_pages/*"],
+      "@features/*": ["src/3_features/*"],
+      "@entities/*": ["src/4_entities/*"],
+      "@shared/*": ["src/5_shared/*"]
     },
     "types": ["node"],
     "allowImportingTsExtensions": true,

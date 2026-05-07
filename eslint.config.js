@@ -41,24 +41,24 @@ export default antfu({
       '**/*.spec.{ts,tsx}',
     ],
     'boundaries/elements': [
-      // app — только bootstrap (main.tsx, router, app-level providers)
-      { type: 'app', mode: 'full', pattern: 'src/app/**/*' },
-      { type: 'app', mode: 'full', pattern: 'src/router.{ts,tsx}' },
+      // 1_app — только bootstrap (main.tsx, router, app-level providers)
+      { type: 'app', mode: 'full', pattern: 'src/1_app/**/*' },
+      { type: 'app', mode: 'full', pattern: 'src/1_app/router.{ts,tsx}' },
 
-      // pages — композиция страниц; routes/* tanstack-router тоже считаем pages
-      { type: 'pages', mode: 'folder', pattern: 'src/pages/*', capture: ['page'] },
+      // 2_pages — композиция страниц; routes/* tanstack-router тоже считаем pages
+      { type: 'pages', mode: 'folder', pattern: 'src/2_pages/*', capture: ['page'] },
       { type: 'pages', mode: 'full', pattern: 'src/routes/**/*' },
 
-      // features — пользовательские сценарии (срез на 1 уровень)
-      { type: 'features', mode: 'folder', pattern: 'src/features/*', capture: ['feature'] },
+      // 3_features — пользовательские сценарии (срез на 1 уровень)
+      { type: 'features', mode: 'folder', pattern: 'src/3_features/*', capture: ['feature'] },
 
-      // entities — доменные сущности (срез на 1 уровень)
-      { type: 'entities', mode: 'folder', pattern: 'src/entities/*', capture: ['entity'] },
+      // 4_entities — доменные сущности (срез на 1 уровень)
+      { type: 'entities', mode: 'folder', pattern: 'src/4_entities/*', capture: ['entity'] },
 
-      // shared — инфраструктура и общий код
+      // 5_shared — инфраструктура и общий код
       // интеграции, глобальные стили и прочая cross-cutting обвязка
-      { type: 'shared', mode: 'full', pattern: 'src/shared/**/*' },
-      { type: 'shared', mode: 'full', pattern: 'src/integrations/**/*' },
+      { type: 'shared', mode: 'full', pattern: 'src/5_shared/**/*' },
+      { type: 'shared', mode: 'full', pattern: 'src/5_shared/integrations/**/*' },
       { type: 'shared', mode: 'full', pattern: 'src/styles.css' },
       { type: 'shared', mode: 'full', pattern: 'src/routeTree.gen.{ts,tsx}' },
     ],
@@ -72,32 +72,32 @@ export default antfu({
     'boundaries/dependencies': ['error', {
       default: 'disallow',
       rules: [
-        // shared — самый нижний слой, может зависеть только от себя
+        // 5_shared — самый нижний слой, может зависеть только от себя
         {
           from: { type: 'shared' },
           allow: [{ to: { type: 'shared' } }],
         },
 
-        // entities — могут зависеть от shared и других entities
+        // 4_entities — могут зависеть от shared и других entities
         {
           from: { type: 'entities' },
           allow: [{ to: { type: ['shared', 'entities'] } }],
         },
 
-        // features — могут использовать entities и shared
+        // 3_features — могут использовать entities и shared
         // cross-feature импорты запрещены
         {
           from: { type: 'features' },
           allow: [{ to: { type: ['shared', 'entities'] } }],
         },
 
-        // pages — тонкий слой композиции из features/entities/shared
+        // 2_pages — тонкий слой композиции из features/entities/shared
         {
           from: { type: 'pages' },
           allow: [{ to: { type: ['shared', 'entities', 'features'] } }],
         },
 
-        // app — только bootstrap; подключает feature через pages,
+        // 1_app — только bootstrap; подключает feature через pages,
         // отсюда разрешены pages и shared (без прямых импортов features/entities)
         {
           from: { type: 'app' },
