@@ -7,6 +7,8 @@ import { Button } from '@/shared/ui/button'
 import { useLogin } from '../model/use-login'
 import { toast } from 'sonner'
 import { ApiError } from '@/shared/api/error'
+import { Link } from '@/shared/ui/link'
+import { Typography } from '@/shared/ui/typography'
 
 export function LoginForm() {
   const loginForm = useForm<LoginFormValues>({
@@ -70,7 +72,14 @@ export function LoginForm() {
               </Field>
             )}
           />
-          <Button type="submit">Войти</Button>
+          <div className="flex flex-col gap-2 items-center">
+            <Button type="submit" className="w-full">Войти</Button>
+            <Typography variant="small">
+              Нет аккаунта?
+              {' '}
+              <Link variant="inherit" to="/auth/register">Регистрация</Link>
+            </Typography>
+          </div>
         </form>
       </CardContent>
     </Card>
