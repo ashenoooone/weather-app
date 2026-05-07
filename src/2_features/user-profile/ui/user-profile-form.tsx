@@ -32,7 +32,7 @@ export function UserProfileForm({ user }: UserProfileFormProps) {
   const updateUserMutation = useUpdateUserProfile()
 
   const onSubmit = async (data: UserProfileFormValues) => {
-    await updateUserMutation.mutateAsync(data)
+    await updateUserMutation.mutateAsync({ id: user.id, ...data })
   }
 
   return (

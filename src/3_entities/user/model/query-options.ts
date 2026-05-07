@@ -8,5 +8,5 @@ export const USER_QUERY_KEYS = {
 export const getMeQueryOptions = queryOptions({
   queryFn: getCurrentUser,
   queryKey: USER_QUERY_KEYS.ME,
-  select: data => data.data,
+  retry: 0,
 })

@@ -1,4 +1,6 @@
 import { useLogout } from '@/features/auth/model/use-logout'
+import { useCurrentUser } from '@/entities/user/model/use-user'
+import { canReadWeather } from '@/entities/user/model/rbac'
 import { useTheme, useThemeActions } from '@/shared/model/theme.store'
 import { Link } from '@/shared/ui/link'
 import {
@@ -16,6 +18,7 @@ import { useRouterState } from '@tanstack/react-router'
 
 export function AppSidebar() {
   const logout = useLogout()
+  const { data: user } = useCurrentUser()
   const theme = useTheme()
   const { toggleTheme } = useThemeActions()
   const pathname = useRouterState({ select: state => state.location.pathname })
@@ -36,14 +39,16 @@ export function AppSidebar() {
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === '/weather'} tooltip="Погода">
-                <Link to="/weather">
-                  <CloudSun />
-                  <span>Погода</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+            {user && canReadWeather(user) && (
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname === '/weather'} tooltip="Погода">
+                  <Link to="/weather">
+                    <CloudSun />
+                    <span>Погода</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            )}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

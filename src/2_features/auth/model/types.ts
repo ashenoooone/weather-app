@@ -14,12 +14,7 @@ export type RegisterRequestDto = {
   password: string
 }
 
-export type RegisterResponseDto = {
-  id: string
-  login: string
-  password: string
-  token: User['token']
-}
+export type RegisterResponseDto = Pick<User, 'id' | 'login' | 'password' | 'token' | 'roles'>
 
 // --- form values ---
 

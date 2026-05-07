@@ -3,26 +3,37 @@
     "id": "1",
     "login": "admin",
     "password": "123",
-    "token": "mock-token"
+    "token": "mock-token-admin",
+    "roles": ["weather_reader"]
   },
   "users": [
     {
       "id": "1",
       "login": "admin",
       "password": "123",
-      "token": "mock-token"
+      "token": "mock-token-admin",
+      "roles": ["weather_reader"]
     },
     {
       "id": "2",
       "login": "demo",
       "password": "123",
-      "token": "mock-token"
+      "token": "mock-token-demo",
+      "roles": ["weather_reader"]
     },
     {
       "login": "test",
       "password": "testtest1D",
       "token": "mock-token-4dd6d9f8-7daa-4a91-9973-84e60c9c73e7",
-      "id": "DrTzI7E"
+      "id": "DrTzI7E",
+      "roles": ["weather_reader"]
+    },
+    {
+      "id": "no-weather",
+      "login": "norole",
+      "password": "123",
+      "token": "mock-token-norole",
+      "roles": []
     }
   ],
   "cities": [

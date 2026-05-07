@@ -1,3 +1,4 @@
+import { canReadWeather } from '@/entities/user/model/rbac'
 import { getMeQueryOptions } from '@/entities/user/model/query-options'
 import { CitySearch } from '@/features/weather/ui/city-search'
 import { LinearTemp } from '@/features/weather/ui/linear-temp'
@@ -26,6 +27,10 @@ export const Route = createFileRoute('/(authorized)/_layout/weather')({
     const user = await context.queryClient.ensureQueryData(getMeQueryOptions)
 
     if (!user) {
+      throw redirect({ to: '/forbidden' })
+    }
+
+    if (!canReadWeather(user)) {
       throw redirect({ to: '/forbidden' })
     }
 

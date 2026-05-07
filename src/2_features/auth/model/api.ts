@@ -1,3 +1,4 @@
+import { WEATHER_READER_ROLE } from '@/entities/user/model/user-roles'
 import { $instance } from '@/shared/api/instance'
 import type { LoginRequestDto, LoginResponseDto, RegisterRequestDto, RegisterResponseDto } from './types'
 
@@ -14,5 +15,6 @@ export async function register(data: RegisterRequestDto) {
   return $instance.post<RegisterResponseDto>('/users', {
     ...data,
     token: createUserToken(),
+    roles: [WEATHER_READER_ROLE],
   })
 }

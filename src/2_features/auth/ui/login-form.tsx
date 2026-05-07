@@ -10,6 +10,7 @@ import { toast } from 'sonner'
 import { ApiError } from '@/shared/api/error'
 import { Link } from '@/shared/ui/link'
 import { Typography } from '@/shared/ui/typography'
+import { canReadWeather } from '@/entities/user/model/rbac'
 import { useNavigate } from '@tanstack/react-router'
 
 export function LoginForm() {
@@ -26,13 +27,17 @@ export function LoginForm() {
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      await loginMutation.mutateAsync(data)
+      const response = await loginMutation.mutateAsync(data)
+      const loggedInUser = response.data[0]
 
       toast.success('Авторизация успешна', {
         description: 'Вы успешно вошли в систему',
       })
 
-      await navigate({ to: '/weather', replace: true })
+      await navigate({
+        to: canReadWeather(loggedInUser) ? '/weather' : '/user',
+        replace: true,
+      })
     }
     catch (error) {
       if (error instanceof ApiError) {
