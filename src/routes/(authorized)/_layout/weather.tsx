@@ -1,4 +1,5 @@
 import { getMeQueryOptions } from '@/entities/user/model/query-options'
+import { CitySearch } from '@/features/weather/ui/city-search'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/(authorized)/_layout/weather')({
@@ -18,5 +19,9 @@ export const Route = createFileRoute('/(authorized)/_layout/weather')({
 })
 
 function RouteComponent() {
-  return <div className="text-sm">Страница погоды</div>
+  return (
+    <div className="text-sm">
+      <CitySearch />
+    </div>
+  )
 }
