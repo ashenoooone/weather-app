@@ -1,8 +1,44 @@
+import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
+import { transformToMovingAverageData } from '../model/transformers'
+import { useCurrentCityData } from '../model/use-current-city-data'
+import { useMemo } from 'react'
+
 type Props = {
   className?: string
 }
 
 export function MeanTemp(props: Props) {
   const { className } = props
-  return <div className={className}></div>
-};
+  const { data, isError } = useCurrentCityData()
+
+  const meanData = useMemo(() => {
+    return data?.data ? transformToMovingAverageData(data.data) : []
+  }, [data])
+
+  if (isError) {
+    return <div className="text-sm text-destructive">Не удалось загрузить данные погоды.</div>
+  }
+
+  return (
+    <LineChart
+      className={className}
+      style={{ width: '100%', aspectRatio: 1.618 }}
+      responsive
+      data={meanData}
+      margin={{
+        top: 5,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      <YAxis width="auto" />
+      <Tooltip />
+      <Legend />
+      <Line type="monotone" dataKey="value" name="Температура" stroke="#8884d8" isAnimationActive={true} />
+      <Line type="monotone" dataKey="average" name="Скользящая средняя" stroke="#82ca9d" isAnimationActive={true} />
+    </LineChart>
+  )
+}

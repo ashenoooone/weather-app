@@ -5,11 +5,19 @@ import type { ComponentProps } from 'react'
 import type { LineChart } from 'recharts'
 
 type LinearData = ComponentProps<typeof LineChart>['data']
+type MovingAverageData = Array<{
+  average: number
+  name: string
+  value: number
+}>
 type TemperatureDistributionData = Array<{
   count: number
   range: string
 }>
 
+/**
+ * Преобразует hourly time + temperature в точки "время -> температура" для line chart.
+ */
 export function transformToLinearData(data: OpenMeteoForecastResponse): LinearData {
   return data.hourly?.time?.map((time, index) => {
     return {
@@ -19,6 +27,50 @@ export function transformToLinearData(data: OpenMeteoForecastResponse): LinearDa
   })
 }
 
+/**
+ * Считает скользящую среднюю температуры.
+ *
+ * Для каждой точки берёт текущую температуру и N-1 предыдущих значений,
+ * затем считает среднее арифметическое.
+ *
+ */
+export function transformToMovingAverageData(
+  data: OpenMeteoForecastResponse,
+  windowSize = 3,
+): MovingAverageData {
+  const times = data.hourly?.time ?? []
+  const temperatures = data.hourly?.temperature_2m ?? []
+
+  return times.reduce<MovingAverageData>((acc, time, index) => {
+    const temperature = temperatures[index]
+
+    if (typeof temperature !== 'number') {
+      return acc
+    }
+
+    const windowStart = Math.max(0, index - windowSize + 1)
+    const window = temperatures
+      .slice(windowStart, index + 1)
+      .filter(item => typeof item === 'number')
+    const average = window.reduce((sum, item) => sum + item, 0) / window.length
+
+    acc.push({
+      average: Number(average.toFixed(1)),
+      name: format(new Date(time), 'dd.MM HH:mm', { locale: ru }),
+      value: temperature,
+    })
+
+    return acc
+  }, [])
+}
+
+/**
+ * Строит распределение температур по интервалам.
+ *
+ * Температуры группируются по диапазонам шириной binSize, после чего
+ * считается количество измерений в каждом диапазоне.
+ *
+ */
 export function transformToTemperatureDistributionData(
   data: OpenMeteoForecastResponse,
   binSize = 5,
