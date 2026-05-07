@@ -10,11 +10,10 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {
-      "@/*": ["src/*"],
-      "@app/*": ["src/1_app/*"],
-      "@features/*": ["src/2_features/*"],
-      "@entities/*": ["src/3_entities/*"],
-      "@shared/*": ["src/4_shared/*"]
+      "@/app/*": ["src/1_app/*"],
+      "@/features/*": ["src/2_features/*"],
+      "@/entities/*": ["src/3_entities/*"],
+      "@/shared/*": ["src/4_shared/*"]
     },
     "types": ["vite/client"],
     "allowImportingTsExtensions": true,
