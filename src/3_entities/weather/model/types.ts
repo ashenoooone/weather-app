@@ -8,7 +8,16 @@ export type WeatherCity = {
   timezone?: string
 }
 
-export type WeatherRange = 1 | 3 | 7 | 14
+const WEATHER_RANGE = {
+  ONE_DAY: 1,
+  THREE_DAYS: 3,
+  SEVEN_DAYS: 7,
+  FOURTEEN_DAYS: 14,
+} as const
+
+export { WEATHER_RANGE as WeatherRange }
+
+export type WeatherRange = typeof WEATHER_RANGE[keyof typeof WEATHER_RANGE]
 
 export type OpenMeteoGeocodingResponse = {
   results?: WeatherCity[]
