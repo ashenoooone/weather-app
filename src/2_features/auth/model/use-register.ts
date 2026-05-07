@@ -1,8 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
-import { register } from './api'
+import { registerMutationOptions } from './mutation-options'
 
 export function useRegister() {
-  return useMutation({
-    mutationFn: register,
-  })
+  return useMutation(registerMutationOptions)
 }

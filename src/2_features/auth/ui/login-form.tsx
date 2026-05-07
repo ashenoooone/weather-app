@@ -10,8 +10,11 @@ import { toast } from 'sonner'
 import { ApiError } from '@/shared/api/error'
 import { Link } from '@/shared/ui/link'
 import { Typography } from '@/shared/ui/typography'
+import { useNavigate } from '@tanstack/react-router'
 
 export function LoginForm() {
+  const navigate = useNavigate()
+
   const loginForm = useForm<LoginFormValues>({
     defaultValues: {
       login: '',
@@ -27,6 +30,7 @@ export function LoginForm() {
       toast.success('Авторизация успешна', {
         description: 'Вы успешно вошли в систему',
       })
+      navigate({ to: '/weather' })
     }
     catch (error) {
       if (error instanceof ApiError) {

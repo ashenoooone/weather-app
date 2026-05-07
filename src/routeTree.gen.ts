@@ -11,6 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as authorizedLayoutRouteImport } from './routes/(authorized)/_layout'
+import { Route as authorizedLayoutWeatherRouteImport } from './routes/(authorized)/_layout/weather'
+import { Route as authorizedLayoutUserRouteImport } from './routes/(authorized)/_layout/user'
 
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
   id: '/auth/register',
@@ -22,29 +25,57 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const authorizedLayoutRoute = authorizedLayoutRouteImport.update({
+  id: '/(authorized)/_layout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authorizedLayoutWeatherRoute = authorizedLayoutWeatherRouteImport.update({
+  id: '/weather',
+  path: '/weather',
+  getParentRoute: () => authorizedLayoutRoute,
+} as any)
+const authorizedLayoutUserRoute = authorizedLayoutUserRouteImport.update({
+  id: '/user',
+  path: '/user',
+  getParentRoute: () => authorizedLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/user': typeof authorizedLayoutUserRoute
+  '/weather': typeof authorizedLayoutWeatherRoute
 }
 export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/user': typeof authorizedLayoutUserRoute
+  '/weather': typeof authorizedLayoutWeatherRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/(authorized)/_layout': typeof authorizedLayoutRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/(authorized)/_layout/user': typeof authorizedLayoutUserRoute
+  '/(authorized)/_layout/weather': typeof authorizedLayoutWeatherRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/auth/login' | '/auth/register'
+  fullPaths: '/auth/login' | '/auth/register' | '/user' | '/weather'
   fileRoutesByTo: FileRoutesByTo
-  to: '/auth/login' | '/auth/register'
-  id: '__root__' | '/auth/login' | '/auth/register'
+  to: '/auth/login' | '/auth/register' | '/user' | '/weather'
+  id:
+    | '__root__'
+    | '/(authorized)/_layout'
+    | '/auth/login'
+    | '/auth/register'
+    | '/(authorized)/_layout/user'
+    | '/(authorized)/_layout/weather'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  authorizedLayoutRoute: typeof authorizedLayoutRouteWithChildren
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
 }
@@ -65,10 +96,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(authorized)/_layout': {
+      id: '/(authorized)/_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof authorizedLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(authorized)/_layout/weather': {
+      id: '/(authorized)/_layout/weather'
+      path: '/weather'
+      fullPath: '/weather'
+      preLoaderRoute: typeof authorizedLayoutWeatherRouteImport
+      parentRoute: typeof authorizedLayoutRoute
+    }
+    '/(authorized)/_layout/user': {
+      id: '/(authorized)/_layout/user'
+      path: '/user'
+      fullPath: '/user'
+      preLoaderRoute: typeof authorizedLayoutUserRouteImport
+      parentRoute: typeof authorizedLayoutRoute
+    }
   }
 }
 
+interface authorizedLayoutRouteChildren {
+  authorizedLayoutUserRoute: typeof authorizedLayoutUserRoute
+  authorizedLayoutWeatherRoute: typeof authorizedLayoutWeatherRoute
+}
+
+const authorizedLayoutRouteChildren: authorizedLayoutRouteChildren = {
+  authorizedLayoutUserRoute: authorizedLayoutUserRoute,
+  authorizedLayoutWeatherRoute: authorizedLayoutWeatherRoute,
+}
+
+const authorizedLayoutRouteWithChildren =
+  authorizedLayoutRoute._addFileChildren(authorizedLayoutRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
+  authorizedLayoutRoute: authorizedLayoutRouteWithChildren,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
 }
