@@ -5,10 +5,13 @@
     "jsx": "react-jsx",
     "lib": ["ES2023", "DOM"],
     "moduleDetection": "force",
+    "baseUrl": ".",
     "module": "esnext",
-
     /* Bundler mode */
     "moduleResolution": "bundler",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "types": ["vite/client"],
     "allowImportingTsExtensions": true,
 

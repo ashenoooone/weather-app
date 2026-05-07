@@ -5,6 +5,9 @@ import boundaries from 'eslint-plugin-boundaries'
 export default antfu({
   react: true,
   typescript: true,
+  formatters: {
+    css: true,
+  },
   stylistic: {
     indent: 2,
     quotes: 'single',
