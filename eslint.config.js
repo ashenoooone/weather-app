@@ -45,9 +45,8 @@ export default antfu({
       { type: 'app', mode: 'full', pattern: 'src/1_app/**/*' },
       { type: 'app', mode: 'full', pattern: 'src/1_app/router.{ts,tsx}' },
 
-      // 2_pages — композиция страниц; routes/* tanstack-router тоже считаем pages
-      { type: 'pages', mode: 'folder', pattern: 'src/2_pages/*', capture: ['page'] },
-      { type: 'pages', mode: 'full', pattern: 'src/routes/**/*' },
+      // routes/* tanstack-router относим к app-слою
+      { type: 'app', mode: 'full', pattern: 'src/routes/**/*' },
 
       // 3_features — пользовательские сценарии (срез на 1 уровень)
       { type: 'features', mode: 'folder', pattern: 'src/3_features/*', capture: ['feature'] },
@@ -91,17 +90,10 @@ export default antfu({
           allow: [{ to: { type: ['shared', 'entities'] } }],
         },
 
-        // 2_pages — тонкий слой композиции из features/entities/shared
-        {
-          from: { type: 'pages' },
-          allow: [{ to: { type: ['shared', 'entities', 'features'] } }],
-        },
-
-        // 1_app — только bootstrap; подключает feature через pages,
-        // отсюда разрешены pages и shared (без прямых импортов features/entities)
+        // 1_app — bootstrap + routes, композиция из feature/entity/shared
         {
           from: { type: 'app' },
-          allow: [{ to: { type: ['shared', 'pages', 'app'] } }],
+          allow: [{ to: { type: ['shared', 'entities', 'features', 'app'] } }],
         },
       ],
     }],
