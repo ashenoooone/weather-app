@@ -1,6 +1,7 @@
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts'
 import { transformToTemperatureDistributionData } from '../model/transformers'
 import { useCurrentCityData } from '../model/use-current-city-data'
+import { shouldAnimateChart } from '../model/chart'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Typography } from '@/shared/ui/typography'
 import { useMemo } from 'react'
@@ -16,6 +17,7 @@ export function HistogramTemp(props: Props) {
   const histogramData = useMemo(() => {
     return data?.data ? transformToTemperatureDistributionData(data.data) : []
   }, [data])
+  const isAnimationActive = shouldAnimateChart(histogramData.length)
 
   if (isError) {
     return <div className="text-sm text-destructive">Не удалось загрузить данные погоды.</div>
@@ -47,7 +49,7 @@ export function HistogramTemp(props: Props) {
           <Bar
             dataKey="count"
             fill="var(--chart-bar)"
-            isAnimationActive={true}
+            isAnimationActive={isAnimationActive}
             name="Количество измерений"
             radius={[8, 8, 0, 0]}
           />

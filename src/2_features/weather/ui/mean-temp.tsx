@@ -1,6 +1,7 @@
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
 import { transformToMovingAverageData } from '../model/transformers'
 import { useCurrentCityData } from '../model/use-current-city-data'
+import { shouldAnimateChart } from '../model/chart'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Typography } from '@/shared/ui/typography'
 import { useMemo } from 'react'
@@ -16,6 +17,7 @@ export function MeanTemp(props: Props) {
   const meanData = useMemo(() => {
     return data?.data ? transformToMovingAverageData(data.data) : []
   }, [data])
+  const isAnimationActive = shouldAnimateChart(meanData.length)
 
   if (isError) {
     return <div className="text-sm text-destructive">Не удалось загрузить данные погоды.</div>
@@ -48,7 +50,7 @@ export function MeanTemp(props: Props) {
             activeDot={{ r: 4 }}
             dataKey="value"
             dot={{ r: 2, strokeWidth: 1 }}
-            isAnimationActive={true}
+            isAnimationActive={isAnimationActive}
             name="Температура"
             stroke="var(--chart-line)"
             strokeWidth={2}
@@ -58,7 +60,7 @@ export function MeanTemp(props: Props) {
             activeDot={{ r: 4 }}
             dataKey="average"
             dot={{ r: 2, strokeWidth: 1 }}
-            isAnimationActive={true}
+            isAnimationActive={isAnimationActive}
             name="Скользящая средняя"
             stroke="var(--chart-2)"
             strokeWidth={2}

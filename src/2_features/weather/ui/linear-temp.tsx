@@ -1,5 +1,6 @@
 import { LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Line } from 'recharts'
 import { useCurrentCityData } from '../model/use-current-city-data'
+import { shouldAnimateChart } from '../model/chart'
 import { transformToLinearData } from '../model/transformers'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Typography } from '@/shared/ui/typography'
@@ -9,8 +10,9 @@ export function LinearTemp() {
   const { data, isError } = useCurrentCityData()
 
   const linearData = useMemo(() => {
-    return data?.data ? transformToLinearData(data.data) : []
+    return data?.data ? (transformToLinearData(data.data) ?? []) : []
   }, [data])
+  const isAnimationActive = shouldAnimateChart(linearData.length)
 
   if (isError) {
     return <div className="text-sm text-destructive">Не удалось загрузить данные погоды.</div>
@@ -43,7 +45,7 @@ export function LinearTemp() {
             activeDot={{ r: 4 }}
             dataKey="value"
             dot={{ r: 2, strokeWidth: 1 }}
-            isAnimationActive={true}
+            isAnimationActive={isAnimationActive}
             name="Температура"
             stroke="var(--chart-line)"
             strokeWidth={2}

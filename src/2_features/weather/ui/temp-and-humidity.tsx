@@ -1,6 +1,7 @@
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
 import { transformToTempAndHumidityData } from '../model/transformers'
 import { useCurrentCityData } from '../model/use-current-city-data'
+import { shouldAnimateChart } from '../model/chart'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Typography } from '@/shared/ui/typography'
 import { useMemo } from 'react'
@@ -16,6 +17,7 @@ export function TempAndHumidity(props: Props) {
   const chartData = useMemo(() => {
     return data?.data ? transformToTempAndHumidityData(data.data) : []
   }, [data])
+  const isAnimationActive = shouldAnimateChart(chartData.length)
 
   if (isError) {
     return <div className="text-sm text-destructive">Не удалось загрузить данные погоды.</div>
@@ -64,7 +66,7 @@ export function TempAndHumidity(props: Props) {
             activeDot={{ r: 4 }}
             dataKey="temperature"
             dot={{ r: 2, strokeWidth: 1 }}
-            isAnimationActive={true}
+            isAnimationActive={isAnimationActive}
             name="Температура"
             stroke="var(--chart-line)"
             strokeWidth={2}
@@ -75,7 +77,7 @@ export function TempAndHumidity(props: Props) {
             activeDot={{ r: 4 }}
             dataKey="humidity"
             dot={{ r: 2, strokeWidth: 1 }}
-            isAnimationActive={true}
+            isAnimationActive={isAnimationActive}
             name="Влажность"
             stroke="var(--chart-2)"
             strokeWidth={2}
