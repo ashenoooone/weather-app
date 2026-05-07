@@ -14,6 +14,11 @@ type TemperatureDistributionData = Array<{
   count: number
   range: string
 }>
+type TempAndHumidityData = Array<{
+  humidity: number
+  name: string
+  temperature: number
+}>
 
 /**
  * Преобразует hourly time + temperature в точки "время -> температура" для line chart.
@@ -98,4 +103,30 @@ export function transformToTemperatureDistributionData(
     count,
     range: `${start}–${start + binSize}°C`,
   }))
+}
+
+/**
+ * Преобразует hourly time + temperature + humidity в точки для графика с двумя осями Y.
+ */
+export function transformToTempAndHumidityData(data: OpenMeteoForecastResponse): TempAndHumidityData {
+  const times = data.hourly?.time ?? []
+  const temperatures = data.hourly?.temperature_2m ?? []
+  const humidityValues = data.hourly?.relative_humidity_2m ?? []
+
+  return times.reduce<TempAndHumidityData>((acc, time, index) => {
+    const temperature = temperatures[index]
+    const humidity = humidityValues[index]
+
+    if (typeof temperature !== 'number' || typeof humidity !== 'number') {
+      return acc
+    }
+
+    acc.push({
+      humidity,
+      name: format(new Date(time), 'dd.MM HH:mm', { locale: ru }),
+      temperature,
+    })
+
+    return acc
+  }, [])
 }

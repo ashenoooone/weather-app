@@ -5,6 +5,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router'
 import { Separator } from '@/shared/ui/separator'
 import { HistogramTemp } from '@/features/weather/ui/histogram-temp'
 import { MeanTemp } from '@/features/weather/ui/mean-temp'
+import { TempAndHumidity } from '@/features/weather/ui/temp-and-humidity'
 
 export const Route = createFileRoute('/(authorized)/_layout/weather')({
   component: RouteComponent,
@@ -29,10 +30,11 @@ function RouteComponent() {
 
       <Separator className="my-10" />
 
-      <div className="grid grid-cols-4">
+      <div className="grid grid-cols-2 gap-10">
         <LinearTemp />
         <HistogramTemp />
         <MeanTemp />
+        <TempAndHumidity />
       </div>
     </div>
   )

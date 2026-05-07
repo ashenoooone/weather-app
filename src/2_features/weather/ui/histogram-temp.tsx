@@ -1,6 +1,7 @@
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts'
 import { transformToTemperatureDistributionData } from '../model/transformers'
 import { useCurrentCityData } from '../model/use-current-city-data'
+import { Typography } from '@/shared/ui/typography'
 import { useMemo } from 'react'
 
 type Props = {
@@ -20,24 +21,26 @@ export function HistogramTemp(props: Props) {
   }
 
   return (
-    <BarChart
-      className={className}
-      style={{ width: '100%', aspectRatio: 1.618 }}
-      responsive
-      data={histogramData}
-      margin={{
-        top: 5,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="range" />
-      <YAxis width="auto" />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="count" name="Количество измерений" fill="#8884d8" isAnimationActive={true} />
-    </BarChart>
+    <div className={className}>
+      <Typography as="h3" variant="h3">Распределение температуры</Typography>
+      <BarChart
+        style={{ width: '100%', aspectRatio: 1.618 }}
+        responsive
+        data={histogramData}
+        margin={{
+          top: 5,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="range" />
+        <YAxis width="auto" />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="count" name="Количество измерений" fill="#8884d8" isAnimationActive={true} />
+      </BarChart>
+    </div>
   )
 }
