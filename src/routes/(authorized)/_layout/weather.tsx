@@ -3,6 +3,7 @@ import { CitySearch } from '@/features/weather/ui/city-search'
 import { LinearTemp } from '@/features/weather/ui/linear-temp'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { Separator } from '@/shared/ui/separator'
+import { HistogramTemp } from '@/features/weather/ui/histogram-temp'
 
 export const Route = createFileRoute('/(authorized)/_layout/weather')({
   component: RouteComponent,
@@ -29,6 +30,7 @@ function RouteComponent() {
 
       <div className="grid grid-cols-4">
         <LinearTemp />
+        <HistogramTemp />
       </div>
     </div>
   )
