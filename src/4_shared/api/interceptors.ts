@@ -45,7 +45,7 @@ export function attachAuthInterceptor(instance: AxiosInstance) {
     if (isApiError(error) && (error.code === 'USER_NOT_AUTHORIZED' || error.status === 403)) {
       localStorage.removeItem(TOKEN_KEY)
       void router.navigate({
-        to: '/auth/login',
+        to: '/forbidden',
         replace: true,
       })
     }

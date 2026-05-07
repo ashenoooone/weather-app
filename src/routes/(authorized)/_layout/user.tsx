@@ -10,7 +10,7 @@ export const Route = createFileRoute('/(authorized)/_layout/user')({
     const user = await context.queryClient.ensureQueryData(getMeQueryOptions)
 
     if (!user) {
-      throw redirect({ to: '/auth/login' })
+      throw redirect({ to: '/forbidden' })
     }
   },
 })

@@ -11,7 +11,7 @@ export const WEATHER_QUERY_KEYS = {
     page,
     perPage,
   ],
-  FORECAST: (city: WeatherCity, range: WeatherRange) => ['weather', 'forecast', city.id, range],
+  FORECAST: (city: WeatherCity | null | undefined, range: WeatherRange) => ['weather', 'forecast', city?.id ?? 'empty', range],
 }
 
 export function citySearchQueryOptions(params: SearchWeatherCitiesParams) {
@@ -32,7 +32,7 @@ export function weatherQueryOptions(params: WeatherQueryOptionsParams) {
   const { city, range } = params
   return queryOptions({
     queryFn: () => getWeather({ city: city!, range }),
-    queryKey: WEATHER_QUERY_KEYS.FORECAST(city!, range),
+    queryKey: WEATHER_QUERY_KEYS.FORECAST(city, range),
     enabled: !!city,
     staleTime: seconds(0),
     placeholderData: keepPreviousData,
