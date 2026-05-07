@@ -39,7 +39,7 @@ http://localhost:3001
 Доступ к env-переменным и базовый URL backend вынесены в:
 
 ```text
-src/5_shared/model/config.ts
+src/4_shared/model/config.ts
 ```
 
 Использование:

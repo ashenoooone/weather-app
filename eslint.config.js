@@ -48,16 +48,16 @@ export default antfu({
       // routes/* tanstack-router относим к app-слою
       { type: 'app', mode: 'full', pattern: 'src/routes/**/*' },
 
-      // 3_features — пользовательские сценарии (срез на 1 уровень)
-      { type: 'features', mode: 'folder', pattern: 'src/3_features/*', capture: ['feature'] },
+      // 2_features — пользовательские сценарии (срез на 1 уровень)
+      { type: 'features', mode: 'folder', pattern: 'src/2_features/*', capture: ['feature'] },
 
-      // 4_entities — доменные сущности (срез на 1 уровень)
-      { type: 'entities', mode: 'folder', pattern: 'src/4_entities/*', capture: ['entity'] },
+      // 3_entities — доменные сущности (срез на 1 уровень)
+      { type: 'entities', mode: 'folder', pattern: 'src/3_entities/*', capture: ['entity'] },
 
-      // 5_shared — инфраструктура и общий код
+      // 4_shared — инфраструктура и общий код
       // интеграции, глобальные стили и прочая cross-cutting обвязка
-      { type: 'shared', mode: 'full', pattern: 'src/5_shared/**/*' },
-      { type: 'shared', mode: 'full', pattern: 'src/5_shared/integrations/**/*' },
+      { type: 'shared', mode: 'full', pattern: 'src/4_shared/**/*' },
+      { type: 'shared', mode: 'full', pattern: 'src/4_shared/integrations/**/*' },
       { type: 'shared', mode: 'full', pattern: 'src/styles.css' },
       { type: 'shared', mode: 'full', pattern: 'src/routeTree.gen.{ts,tsx}' },
     ],
@@ -71,19 +71,19 @@ export default antfu({
     'boundaries/dependencies': ['error', {
       default: 'disallow',
       rules: [
-        // 5_shared — самый нижний слой, может зависеть только от себя
+        // 4_shared — самый нижний слой, может зависеть только от себя
         {
           from: { type: 'shared' },
           allow: [{ to: { type: 'shared' } }],
         },
 
-        // 4_entities — могут зависеть от shared и других entities
+        // 3_entities — могут зависеть от shared и других entities
         {
           from: { type: 'entities' },
           allow: [{ to: { type: ['shared', 'entities'] } }],
         },
 
-        // 3_features — могут использовать entities и shared
+        // 2_features — могут использовать entities и shared
         // cross-feature импорты запрещены
         {
           from: { type: 'features' },
