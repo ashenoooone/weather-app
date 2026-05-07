@@ -1,6 +1,7 @@
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
 import { transformToTempAndHumidityData } from '../model/transformers'
 import { useCurrentCityData } from '../model/use-current-city-data'
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Typography } from '@/shared/ui/typography'
 import { useMemo } from 'react'
 
@@ -21,42 +22,68 @@ export function TempAndHumidity(props: Props) {
   }
 
   return (
-    <div className={className}>
-      <Typography as="h3" variant="h3">Температура и влажность</Typography>
-      <LineChart
-        style={{ width: '100%', aspectRatio: 1.618 }}
-        responsive
-        data={chartData}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis yAxisId="temperature" width="auto" unit="°C" />
-        <YAxis yAxisId="humidity" orientation="right" width="auto" unit="%" />
-        <Tooltip />
-        <Legend />
-        <Line
-          type="monotone"
-          dataKey="temperature"
-          name="Температура"
-          stroke="#8884d8"
-          yAxisId="temperature"
-          isAnimationActive={true}
-        />
-        <Line
-          type="monotone"
-          dataKey="humidity"
-          name="Влажность"
-          stroke="#82ca9d"
-          yAxisId="humidity"
-          isAnimationActive={true}
-        />
-      </LineChart>
-    </div>
+    <Card className={className}>
+      <CardHeader>
+        <CardTitle>Температура и влажность</CardTitle>
+        <Typography variant="muted">Сравнение двух показателей на разных осях Y</Typography>
+      </CardHeader>
+      <CardContent>
+        <LineChart
+          style={{ width: '100%', aspectRatio: 1.618 }}
+          responsive
+          data={chartData}
+          margin={{
+            top: 8,
+            right: 20,
+            left: 8,
+            bottom: 0,
+          }}
+        >
+          <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="3 3" />
+          <XAxis axisLine={false} dataKey="name" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} tickLine={false} />
+          <YAxis
+            axisLine={false}
+            tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+            tickLine={false}
+            unit="°C"
+            width="auto"
+            yAxisId="temperature"
+          />
+          <YAxis
+            axisLine={false}
+            orientation="right"
+            tick={{ fill: 'var(--text-secondary)', fontSize: 12 }}
+            tickLine={false}
+            unit="%"
+            width="auto"
+            yAxisId="humidity"
+          />
+          <Tooltip contentStyle={{ background: 'var(--popover)', border: '1px solid var(--border)', borderRadius: 12 }} />
+          <Legend wrapperStyle={{ color: 'var(--text-secondary)', fontSize: 13 }} />
+          <Line
+            activeDot={{ r: 4 }}
+            dataKey="temperature"
+            dot={{ r: 2, strokeWidth: 1 }}
+            isAnimationActive={true}
+            name="Температура"
+            stroke="var(--chart-line)"
+            strokeWidth={2}
+            type="monotone"
+            yAxisId="temperature"
+          />
+          <Line
+            activeDot={{ r: 4 }}
+            dataKey="humidity"
+            dot={{ r: 2, strokeWidth: 1 }}
+            isAnimationActive={true}
+            name="Влажность"
+            stroke="var(--chart-2)"
+            strokeWidth={2}
+            type="monotone"
+            yAxisId="humidity"
+          />
+        </LineChart>
+      </CardContent>
+    </Card>
   )
 }

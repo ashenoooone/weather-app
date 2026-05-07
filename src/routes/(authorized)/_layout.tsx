@@ -11,10 +11,10 @@ function RouteComponent() {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="h-12 border-b flex items-center px-3">
+        <header className="flex h-14 items-center border-b border-border/60 bg-background/70 px-4 backdrop-blur-xl">
           <SidebarTrigger />
         </header>
-        <main className="p-4">
+        <main className="p-5 md:p-8">
           <Outlet />
         </main>
       </SidebarInset>

@@ -8,13 +8,13 @@ import { cn } from '../lib/utils'
 const typographyVariants = cva('', {
   variants: {
     variant: {
-      h1: 'cn-font-heading scroll-m-20 text-3xl font-semibold tracking-tight lg:text-4xl',
-      h2: 'cn-font-heading scroll-m-20 text-2xl font-semibold tracking-tight',
-      h3: 'cn-font-heading scroll-m-20 text-xl font-semibold tracking-tight',
-      lead: 'text-base text-muted-foreground',
+      h1: 'cn-font-heading scroll-m-20 text-2xl leading-8 font-semibold tracking-tight',
+      h2: 'cn-font-heading scroll-m-20 text-xl leading-7 font-semibold tracking-tight',
+      h3: 'cn-font-heading scroll-m-20 text-lg leading-7 font-semibold tracking-tight',
+      lead: 'text-base leading-7 text-muted-foreground',
       body: 'text-sm leading-6',
-      muted: 'text-sm text-muted-foreground',
-      small: 'text-xs font-medium leading-none',
+      muted: 'text-sm leading-5 text-muted-foreground',
+      small: 'text-xs leading-5 font-medium text-muted-foreground',
     },
   },
   defaultVariants: {

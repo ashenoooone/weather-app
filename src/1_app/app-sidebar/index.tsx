@@ -1,4 +1,5 @@
 import { useLogout } from '@/features/auth/model/use-logout'
+import { useTheme, useThemeActions } from '@/shared/model/theme.store'
 import { Link } from '@/shared/ui/link'
 import {
   Sidebar,
@@ -6,27 +7,29 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupLabel,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/shared/ui/sidebar'
-import { CloudSun, LogOut, User } from 'lucide-react'
+import { CloudSun, LogOut, Moon, Sun, User } from 'lucide-react'
+import { useRouterState } from '@tanstack/react-router'
 
 export function AppSidebar() {
   const logout = useLogout()
+  const theme = useTheme()
+  const { toggleTheme } = useThemeActions()
+  const pathname = useRouterState({ select: state => state.location.pathname })
 
   return (
-    <Sidebar>
-      <SidebarHeader>
-        <div className="px-2 py-1 text-sm font-semibold">Weather App</div>
-      </SidebarHeader>
+    <Sidebar className="border-r border-sidebar-border/70 bg-sidebar/85 backdrop-blur-xl">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Навигация</SidebarGroupLabel>
-          <SidebarMenu>
+          <SidebarGroupLabel className="px-3 text-xs font-medium uppercase tracking-[0.16em] text-sidebar-foreground/45">
+            Навигация
+          </SidebarGroupLabel>
+          <SidebarMenu className="gap-2 px-3">
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Пользователь">
+              <SidebarMenuButton asChild isActive={pathname === '/user'} tooltip="Пользователь">
                 <Link to="/user">
                   <User />
                   <span>Пользователь</span>
@@ -34,7 +37,7 @@ export function AppSidebar() {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Погода">
+              <SidebarMenuButton asChild isActive={pathname === '/weather'} tooltip="Погода">
                 <Link to="/weather">
                   <CloudSun />
                   <span>Погода</span>
@@ -45,7 +48,17 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenu>
+        <SidebarMenu className="gap-2 px-3 pb-3">
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              className="border border-sidebar-border/70 bg-sidebar-accent/45"
+              tooltip="Переключить тему"
+              onClick={toggleTheme}
+            >
+              {theme === 'dark' ? <Sun /> : <Moon />}
+              <span>{theme === 'dark' ? 'Светлая тема' : 'Тёмная тема'}</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton tooltip="Выйти" onClick={logout}>
               <LogOut />

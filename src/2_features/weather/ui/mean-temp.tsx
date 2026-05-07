@@ -1,6 +1,7 @@
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
 import { transformToMovingAverageData } from '../model/transformers'
 import { useCurrentCityData } from '../model/use-current-city-data'
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Typography } from '@/shared/ui/typography'
 import { useMemo } from 'react'
 
@@ -21,27 +22,50 @@ export function MeanTemp(props: Props) {
   }
 
   return (
-    <div className={className}>
-      <Typography as="h3" variant="h3">Скользящая средняя температуры</Typography>
-      <LineChart
-        style={{ width: '100%', aspectRatio: 1.618 }}
-        responsive
-        data={meanData}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis width="auto" />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="value" name="Температура" stroke="#8884d8" isAnimationActive={true} />
-        <Line type="monotone" dataKey="average" name="Скользящая средняя" stroke="#82ca9d" isAnimationActive={true} />
-      </LineChart>
-    </div>
+    <Card className={className}>
+      <CardHeader>
+        <CardTitle>Скользящая средняя температуры</CardTitle>
+        <Typography variant="muted">Тренд температуры без резких часовых колебаний</Typography>
+      </CardHeader>
+      <CardContent>
+        <LineChart
+          style={{ width: '100%', aspectRatio: 1.618 }}
+          responsive
+          data={meanData}
+          margin={{
+            top: 8,
+            right: 20,
+            left: 8,
+            bottom: 0,
+          }}
+        >
+          <CartesianGrid stroke="var(--chart-grid)" strokeDasharray="3 3" />
+          <XAxis axisLine={false} dataKey="name" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} tickLine={false} />
+          <YAxis axisLine={false} tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} tickLine={false} width="auto" />
+          <Tooltip contentStyle={{ background: 'var(--popover)', border: '1px solid var(--border)', borderRadius: 12 }} />
+          <Legend wrapperStyle={{ color: 'var(--text-secondary)', fontSize: 13 }} />
+          <Line
+            activeDot={{ r: 4 }}
+            dataKey="value"
+            dot={{ r: 2, strokeWidth: 1 }}
+            isAnimationActive={true}
+            name="Температура"
+            stroke="var(--chart-line)"
+            strokeWidth={2}
+            type="monotone"
+          />
+          <Line
+            activeDot={{ r: 4 }}
+            dataKey="average"
+            dot={{ r: 2, strokeWidth: 1 }}
+            isAnimationActive={true}
+            name="Скользящая средняя"
+            stroke="var(--chart-2)"
+            strokeWidth={2}
+            type="monotone"
+          />
+        </LineChart>
+      </CardContent>
+    </Card>
   )
 }
