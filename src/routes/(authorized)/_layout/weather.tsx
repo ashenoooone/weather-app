@@ -25,12 +25,12 @@ export const Route = createFileRoute('/(authorized)/_layout/weather')({
   beforeLoad: async ({ context }) => {
     const user = await context.queryClient.ensureQueryData(getMeQueryOptions)
 
-    if (!user.data) {
+    if (!user) {
       throw redirect({ to: '/forbidden' })
     }
 
     return {
-      user: user.data,
+      user,
     }
   },
 })
