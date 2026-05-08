@@ -11,7 +11,7 @@ export function CitySearch() {
   const { city, citySearch } = useWeatherPageStore()
   const { setCity, setCitySearch } = useWeatherPageActions()
 
-  // TODO: в идеале инфинит подгрузку делать, но не стал заморачиваться
+  // TODO: в идеале инфинит подгрузку делать
   const citySearchQuery = useQuery(citySearchQueryOptions({ search: citySearch, perPage: 100 }))
 
   return (
