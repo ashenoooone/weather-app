@@ -5,13 +5,14 @@ import { Field, FieldError, FieldLabel } from '@/shared/ui/field'
 import { Input } from '@/shared/ui/input'
 import { PasswordInput } from '@/shared/ui/password-input'
 import { Button } from '@/shared/ui/button'
-import { useRegister } from '../model/use-register'
+import { registerMutationOptions } from '../model/mutation-options'
 import { toast } from 'sonner'
 import { ApiError } from '@/shared/api/error'
 import { Link } from '@/shared/ui/link'
 import { Typography } from '@/shared/ui/typography'
 import { getConfirmPasswordValidationError, getPasswordValidationError } from '../model/validation'
 import { useNavigate } from '@tanstack/react-router'
+import { useMutation } from '@tanstack/react-query'
 
 export function RegisterForm() {
   const navigate = useNavigate()
@@ -25,7 +26,7 @@ export function RegisterForm() {
     mode: 'all',
   })
 
-  const registerMutation = useRegister()
+  const registerMutation = useMutation(registerMutationOptions)
 
   const onSubmit = async (data: RegisterFormValues) => {
     const { login, password } = data

@@ -1,5 +1,5 @@
 import { useLogout } from '@/features/auth/model/use-logout'
-import { useCurrentUser } from '@/entities/user/model/use-user'
+import { getMeQueryOptions } from '@/entities/user/model/query-options'
 import { canReadWeather } from '@/entities/user/model/rbac'
 import { useTheme, useThemeActions } from '@/shared/model/theme.store'
 import { Link } from '@/shared/ui/link'
@@ -15,10 +15,11 @@ import {
 } from '@/shared/ui/sidebar'
 import { CloudSun, LogOut, Moon, Sun, User } from 'lucide-react'
 import { useRouterState } from '@tanstack/react-router'
+import { useQuery } from '@tanstack/react-query'
 
 export function AppSidebar() {
   const logout = useLogout()
-  const { data: user } = useCurrentUser()
+  const { data: user } = useQuery(getMeQueryOptions)
   const theme = useTheme()
   const { toggleTheme } = useThemeActions()
   const pathname = useRouterState({ select: state => state.location.pathname })

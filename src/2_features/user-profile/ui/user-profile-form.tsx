@@ -7,13 +7,15 @@ import { Input } from '@/shared/ui/input'
 import { PasswordInput } from '@/shared/ui/password-input'
 import { Controller, useForm } from 'react-hook-form'
 import { useEffect } from 'react'
-import { useUpdateUserProfile } from '../model/use-update-user-profile'
+import { updateUserProfileMutationOptions } from '../model/mutation-options'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 type UserProfileFormProps = {
   user: User
 }
 
 export function UserProfileForm({ user }: UserProfileFormProps) {
+  const queryClient = useQueryClient()
   const userForm = useForm<UserProfileFormValues>({
     defaultValues: {
       login: '',
@@ -29,7 +31,7 @@ export function UserProfileForm({ user }: UserProfileFormProps) {
     })
   }, [user, userForm])
 
-  const updateUserMutation = useUpdateUserProfile()
+  const updateUserMutation = useMutation(updateUserProfileMutationOptions(queryClient))
 
   const onSubmit = async (data: UserProfileFormValues) => {
     await updateUserMutation.mutateAsync({ id: user.id, ...data })

@@ -1,8 +1,8 @@
 import { UserProfileForm } from '@/features/user-profile/ui/user-profile-form'
 import { UserGeneralInfo } from '@/entities/user/ui/user-general-info'
 import { getMeQueryOptions } from '@/entities/user/model/query-options'
-import { useCurrentUser } from '@/entities/user/model/use-user'
 import { createFileRoute, redirect } from '@tanstack/react-router'
+import { useQuery } from '@tanstack/react-query'
 
 export const Route = createFileRoute('/(authorized)/_layout/user')({
   component: RouteComponent,
@@ -16,7 +16,7 @@ export const Route = createFileRoute('/(authorized)/_layout/user')({
 })
 
 function RouteComponent() {
-  const { data: user } = useCurrentUser()
+  const { data: user } = useQuery(getMeQueryOptions)
 
   if (!user) {
     return null

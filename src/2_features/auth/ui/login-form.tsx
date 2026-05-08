@@ -5,13 +5,14 @@ import { Field, FieldError, FieldLabel } from '@/shared/ui/field'
 import { Input } from '@/shared/ui/input'
 import { PasswordInput } from '@/shared/ui/password-input'
 import { Button } from '@/shared/ui/button'
-import { useLogin } from '../model/use-login'
+import { getLoginMutationOptions } from '../model/mutation-options'
 import { toast } from 'sonner'
 import { ApiError } from '@/shared/api/error'
 import { Link } from '@/shared/ui/link'
 import { Typography } from '@/shared/ui/typography'
 import { canReadWeather } from '@/entities/user/model/rbac'
 import { useNavigate } from '@tanstack/react-router'
+import { useMutation } from '@tanstack/react-query'
 
 export function LoginForm() {
   const navigate = useNavigate()
@@ -23,7 +24,7 @@ export function LoginForm() {
     },
   })
 
-  const loginMutation = useLogin()
+  const loginMutation = useMutation(getLoginMutationOptions)
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
